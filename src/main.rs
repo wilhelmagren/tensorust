@@ -25,6 +25,8 @@
  *  For example, when MATRIX_DIM = 1e4 we iterate and access the Vec 2 seconds
  *  faster in row-wise format compared to column.
  *
+ *  Reference: https://pytorch.org/blog/tensor-memory-format-matters/
+ *
  */
 use std::time::Instant;
 use rand::Rng;
