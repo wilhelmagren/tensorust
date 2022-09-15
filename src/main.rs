@@ -31,7 +31,7 @@
 use std::time::Instant;
 use rand::Rng;
 
-static MATRIX_DIM: usize = 10000;
+static MATRIX_DIM: usize = 8000;
 
 fn loop_row(v: &mut Vec<Vec<f32>>) {
     let mut sum: f32 = 0.0;
@@ -51,26 +51,30 @@ fn loop_col(v: &mut Vec<Vec<f32>>) {
     }
 }
 
-fn time_func(func: fn(&mut Vec<Vec<f32>>), v: &mut Vec<Vec<f32>>) {
-    let now = Instant::now();
-    func(v);
-    println!("Elapsed time: {}", now.elapsed().as_secs());
+fn time_func(func: fn(&mut Vec<Vec<f32>>), v: &mut Vec<Vec<f32>>, func_name: &str) {
+    println!("Func name argument: {}", func_name);
+    let mut times: f64 = 0.0; 
+    for i in 0..10 {
+        let now = Instant::now();
+        func(v);
+        let t: f64 = now.elapsed().as_millis() as f64;
+        println!("{} iteration: {} took {} ms", func_name, i, t);
+        times += t;
+    }
+    println!("{} average loop time {} ms", func_name, times / 10.0);
 }
 
 fn main() {
-    let now = Instant::now();
-    println!("Hello, world!");
-    println!("Elapsed time: {}", now.elapsed().as_secs());
-
+    println!("Vector loop layout performance testing...");
 
     let mut rng = rand::thread_rng();
     let mut v: Vec<Vec<f32>> = vec![vec![0.0; MATRIX_DIM]; MATRIX_DIM];
-    for i in 0..160000 {
+    for _ in 0..160000 {
         let x: usize = rng.gen_range(0..MATRIX_DIM);
         let y: usize = rng.gen_range(0..MATRIX_DIM);
         v[x][y] = rng.gen_range(0.0..10000.0);
     }
 
-    time_func(loop_row, &mut v);
-    time_func(loop_col, &mut v);
+    time_func(loop_row, &mut v, "loop_row");
+    time_func(loop_col, &mut v, "loop_col");
 }
