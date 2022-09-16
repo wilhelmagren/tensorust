@@ -1,4 +1,6 @@
-/*  Copyright [2022] [Wilhelm Ågren]
+/* ------------------------------------------------------------------------------
+ * 
+ *  Copyright [2022] [Wilhelm Ågren]
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -12,11 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
+ * ------------------------------------------------------------------------------
  *
- * The following code snippet loops over a 2D matrix in two different ways and calculates 
- * the time it takes to access all elements and sum them. The two variants are:
- *  > column-wise, and
- *  > row-wise.
+ *  The following code snippet loops over a 2D matrix in two different ways and 
+ *  calculates the time it takes to access all elements and sum them. The two 
+ *  variants are: column-wise, and row-wise.
  *
  *  Supposedly, according to other sources, row-wise should be the optimal choice
  *  because of how the Vec struct is layed out in contiguous memory. We achieve
