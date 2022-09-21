@@ -1,7 +1,8 @@
 [package]
-name = "memory-layout"
+name = "row-vs-column-looping"
 version = "1.0.0"
 edition = "2021"
 
 [dependencies]
 rand = "0.8.5"
+
