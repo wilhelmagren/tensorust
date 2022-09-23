@@ -39,9 +39,14 @@
 //  [1] Dhruv Matani, Suraj Subramanian. PyTorch Foundation. 
 //  https://pytorch.org/blog/tensor-memory-format-matters/, accessed: 21-09-22.
 //
+//  File created: 2022-09-15
+//  Last updated: 2022-03-23
+//
 
 use std::time::Instant;
 use std::env;
+use std::fs;
+use std::io::Write;
 use rand::Rng;
 use chrono::offset::Local;
 
@@ -101,6 +106,24 @@ fn time_func(
     avg_time_ms
 }
 
+fn write_to_file(
+    fname: &str,
+    row: f64,
+    col: f64,
+    matrix_dim: usize
+) {
+    let metrics = format!("{} {} {}\n", matrix_dim, row, col);
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .append(true)
+        .create(true)
+        .open(fname)
+        .expect("Could not open file.");
+    
+    file.write(metrics.as_bytes())
+        .expect("Could not write to file.");
+}
+
 fn compare_order_performance(
     matrix_dim: usize
 ) {
@@ -121,6 +144,8 @@ fn compare_order_performance(
     } else {
         info!("Column-wise is on average {:.3} times faster.", row_ms / col_ms);
     }
+
+    write_to_file("metrics.txt", row_ms, col_ms, matrix_dim);
 }
 
 fn main() {
