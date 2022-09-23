@@ -40,15 +40,16 @@
 //  https://pytorch.org/blog/tensor-memory-format-matters/, accessed: 21-09-22.
 //
 
-use rand::Rng;
 use std::time::Instant;
+use std::env;
+use rand::Rng;
 use chrono::offset::Local;
 
 macro_rules! info {
     ($($arg:tt)*) => {
         println!(
             "{}  [INFO]  {}", 
-            Local::now().format("%Y-%m-%d  %H:%M:%S"), 
+            Local::now().format("[%Y-%m-%d  %H:%M:%S]"), 
             format!($($arg)*)
         );
     }
@@ -123,7 +124,10 @@ fn compare_order_performance(
 }
 
 fn main() {
-    for md in vec![100, 500, 1000, 2500, 5000, 10000, 15000] {
-        compare_order_performance(md);
+    let args: Vec<String> = env::args().collect();
+    for i in 1..args.len() {
+        let arg: usize = args[i].parse::<usize>()
+            .expect("Could not parse given arg as usize.");
+        compare_order_performance(arg);
     }
 }
