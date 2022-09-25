@@ -36,3 +36,16 @@ impl Tensor {
     }
 }
 
+// This is extremely ugly, but it works at least.
+// Look into more idiomatic way of implementing traits for Tensor.
+use std::ops::Add;
+impl Add for Tensor {
+    type Output = Self;
+    fn add(self, other: Tensor) -> Tensor {
+        let data: Vec<f32> = self.data.iter().zip(other.data.iter())
+            .map(|(&u, &v)| u + v)
+            .collect();
+        Tensor { dims: self.dims, data }
+    }
+}
+
