@@ -1,13 +1,19 @@
+// Do we need a specific type for the Tensor? Perhaps we implement this later...
 use std::fmt::Debug;
-
-// Here we define the type of the tensor as a trait, and defines
-// default and required functions of all Tensor structs.
 pub trait TensorType: Default + Debug {
     fn zero() -> Self;
     fn one() -> Self;
 }
 
-pub struct Tensor {
-    dims: Vec<u64>,
-    // Here we want the data, but how should we store it?
+#[allow(dead_code)]
+pub struct Tensor<T> {
+    dims: Vec<usize>,
+    data: Vec<T>,
+}
+
+#[allow(dead_code)]
+impl<T> Tensor<T> {
+    fn new(dims: Vec<usize>, data: Vec<T>) -> Self  {
+        Tensor { dims, data }
+    }
 }
