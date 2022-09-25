@@ -6,14 +6,33 @@ pub trait TensorType: Default + Debug {
 }
 
 #[allow(dead_code)]
-pub struct Tensor<T> {
+pub struct Tensor {
     dims: Vec<usize>,
-    data: Vec<T>,
+    data: Vec<f32>
 }
 
 #[allow(dead_code)]
-impl<T> Tensor<T> {
-    fn new(dims: Vec<usize>, data: Vec<T>) -> Self  {
+impl Tensor {
+    pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
         Tensor { dims, data }
     }
+
+    pub fn zeros(dims: Vec<usize>) -> Tensor {
+        let size: usize = dims.iter().product();
+        Tensor { dims, data: vec![0.0; size] }
+    }
+
+    pub fn ones(dims: Vec<usize>) -> Tensor {
+        let size: usize = dims.iter().product();
+        Tensor { dims, data: vec![1.0; size] }
+    }
+
+    pub fn dims(&self) -> &Vec<usize> {
+        &self.dims
+    }
+
+    pub fn data(&self) -> &Vec<f32> {
+        &self.data
+    }
 }
+
