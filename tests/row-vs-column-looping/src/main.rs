@@ -40,7 +40,7 @@
 //  https://pytorch.org/blog/tensor-memory-format-matters/, accessed: 21-09-22.
 //
 //  File created: 2022-09-15
-//  Last updated: 2022-03-23
+//  Last updated: 2022-09-25
 //
 
 use std::time::Instant;
