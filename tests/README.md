@@ -17,7 +17,7 @@ what can be concluded.
   more cache hits. The results indicate that the hypotheses is true. This is further
   strengthened by literature and already performed experiments. As the matrix dimensionality grows,
   so does the difference in performance between the two implementations. <br> <p align="center">
-  <img src="https://github.com/willeagren/tensorust/blob/development/structure/tests/row-vs-column-looping/images/row-vs-column-looping-plot.png" />
+  <img src="https://github.com/willeagren/tensorust/blob/main/tests/row-vs-column-looping/images/row-vs-column-looping-plot.png" />
 </p>
 
 ## License
