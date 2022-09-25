@@ -13,29 +13,26 @@ pub struct Tensor {
 
 #[allow(dead_code)]
 impl Tensor {
-    fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
+    pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
         Tensor { dims, data }
     }
 
-    fn zeros(dims: Vec<usize>) -> Tensor {
+    pub fn zeros(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
         Tensor { dims, data: vec![0.0; size] }
     }
 
-    fn ones(dims: Vec<usize>) -> Tensor {
+    pub fn ones(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
         Tensor { dims, data: vec![1.0; size] }
     }
-}
 
-#[cfg(tests)]
-mod tests {
-    use super::*;
+    pub fn dims(&self) -> &Vec<usize> {
+        &self.dims
+    }
 
-    #[test]
-    fn test_new() {
-        let t: Tensor = Tensor::new(vec![2, 3], vec![2.0; 6]);
-        assert_eq!(t.dims, vec![2, 3]);
-        assert_eq!(t.data, vec![2.0; 6]);
+    pub fn data(&self) -> &Vec<f32> {
+        &self.data
     }
 }
+
