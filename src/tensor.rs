@@ -1,23 +1,50 @@
+//
+//  Copyright 2022 Wilhelm Ågren
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+mod function;
+use crate::Function;
+use std::ptr;
+
+#[allow(dead_code)]
+enum FunctionType {
+    Function,
+    ptr::null(),
+}
+
 #[allow(dead_code)]
 pub struct Tensor {
     dims: Vec<usize>,
-    data: Vec<f32>
+    data: Vec<f32>,
+    ctx: FunctionType
 }
 
 #[allow(dead_code)]
 impl Tensor {
     pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
-        Tensor { dims, data }
+        Tensor { dims: dims, data: data, ctx: ptr::null() }
     }
 
     pub fn zeros(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims, data: vec![0.0; size] }
+        Tensor { dims: dims, data: vec![0.0; size] , ctx: ptr::null() }
     }
 
     pub fn ones(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims, data: vec![1.0; size] }
+        Tensor { dims: dims, data: vec![1.0; size] , ctx: ptr::null() }
     }
 
     pub fn dims(&self) -> &Vec<usize> {
@@ -29,7 +56,6 @@ impl Tensor {
     }
 }
 
-// This is extremely ugly, but it works at least.
 // Look into more idiomatic way of implementing traits for Tensor.
 use std::ops::Add;
 impl Add for Tensor {
@@ -38,7 +64,7 @@ impl Add for Tensor {
         let data: Vec<f32> = self.data.iter().zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Tensor { dims: self.dims, data }
+        Tensor { dims: self.dims, data: data , ctx: ptr::null() }
     }
 }
 

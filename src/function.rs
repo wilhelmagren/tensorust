@@ -14,10 +14,13 @@
 //  limitations under the License.
 //
 
-mod tensor;
-mod function;
-
-#[allow(unused_imports)]
-pub use tensor::Tensor;
-pub use function::Function;
-
+pub struct Function {
+}
+/*
+impl Function {
+    pub fn add(self, u: Tensor, v: Tensor) -> Self {
+        // self.saved_tensors.push(u).push(v);
+        self
+    }
+}
+*/
