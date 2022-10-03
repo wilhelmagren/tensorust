@@ -13,6 +13,9 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+//  File created: 22-10-03
+//  Last updated: 22-10-03
+//
 
 use crate::Function;
 
@@ -20,23 +23,24 @@ use crate::Function;
 pub struct Tensor {
     dims: Vec<usize>,
     data: Vec<f32>,
-    ctx: Function
+    ctx: Function,
+    requires_grad: bool,
 }
 
 #[allow(dead_code)]
 impl Tensor {
     pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
-        Tensor { dims: dims, data: data, ctx: Function::null() }
+        Tensor { dims: dims, data: data, ctx: Function::null(), requires_grad: false }
     }
 
     pub fn zeros(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims: dims, data: vec![0.0; size] , ctx: Function::null() }
+        Tensor { dims: dims, data: vec![0.0; size] , ctx: Function::null(), requires_grad: false }
     }
 
     pub fn ones(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims: dims, data: vec![1.0; size] , ctx: Function::null() }
+        Tensor { dims: dims, data: vec![1.0; size] , ctx: Function::null(), requires_grad: false }
     }
 
     pub fn dims(&self) -> &Vec<usize> {
@@ -56,7 +60,7 @@ impl Add for Tensor {
         let data: Vec<f32> = self.data.iter().zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Tensor { dims: self.dims, data: data , ctx: Function::null() }
+        Tensor { dims: self.dims, data: data , ctx: Function::null(), requires_grad: false }
     }
 }
 

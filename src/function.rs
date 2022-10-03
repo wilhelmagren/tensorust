@@ -13,15 +13,30 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
+//  File created: 22-10-03
+//  Last updated: 22-10-03
+//
 
 use crate::Tensor;
 
+#[derive(Default)]
 pub struct Function {
+    parents: Vec<Tensor>,
+    saved_tensors: Vec<Tensor>,
+    requires_grad: bool
 }
 
 impl Function {
+    pub fn add(u: Tensor, v: Tensor) -> Self {
+        Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
+    }
+
+    pub fn default() -> Self {
+        Self { parents: vec![], saved_tensors: vec![], requires_grad: false  }
+    }
+
     pub fn null() -> Self {
-        Self {  }
+        Function::default() 
     }
 }
 
