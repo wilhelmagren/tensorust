@@ -16,35 +16,28 @@
 
 mod function;
 use crate::Function;
-use std::ptr;
-
-#[allow(dead_code)]
-enum FunctionType {
-    Function,
-    ptr::null(),
-}
 
 #[allow(dead_code)]
 pub struct Tensor {
     dims: Vec<usize>,
     data: Vec<f32>,
-    ctx: FunctionType
+    ctx: Function
 }
 
 #[allow(dead_code)]
 impl Tensor {
     pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
-        Tensor { dims: dims, data: data, ctx: ptr::null() }
+        Tensor { dims: dims, data: data, ctx: Function::null() }
     }
 
     pub fn zeros(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims: dims, data: vec![0.0; size] , ctx: ptr::null() }
+        Tensor { dims: dims, data: vec![0.0; size] , ctx: Function::null() }
     }
 
     pub fn ones(dims: Vec<usize>) -> Tensor {
         let size: usize = dims.iter().product();
-        Tensor { dims: dims, data: vec![1.0; size] , ctx: ptr::null() }
+        Tensor { dims: dims, data: vec![1.0; size] , ctx: Function::null() }
     }
 
     pub fn dims(&self) -> &Vec<usize> {
@@ -64,7 +57,7 @@ impl Add for Tensor {
         let data: Vec<f32> = self.data.iter().zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Tensor { dims: self.dims, data: data , ctx: ptr::null() }
+        Tensor { dims: self.dims, data: data , ctx: Function::null() }
     }
 }
 

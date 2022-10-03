@@ -16,11 +16,10 @@
 
 pub struct Function {
 }
-/*
+
 impl Function {
-    pub fn add(self, u: Tensor, v: Tensor) -> Self {
-        // self.saved_tensors.push(u).push(v);
-        self
+    pub fn null() -> Self {
+        Self {  }
     }
 }
-*/
+
