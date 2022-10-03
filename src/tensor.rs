@@ -14,7 +14,6 @@
 //  limitations under the License.
 //
 
-mod function;
 use crate::Function;
 
 #[allow(dead_code)]

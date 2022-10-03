@@ -14,6 +14,8 @@
 //  limitations under the License.
 //
 
+use crate::Tensor;
+
 pub struct Function {
 }
 
