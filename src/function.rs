@@ -35,8 +35,8 @@ impl Function {
         Self { parents: vec![], saved_tensors: vec![], requires_grad: false  }
     }
 
-    pub fn null() -> Self {
-        Function::default() 
+    pub fn empty() -> Self {
+        Self::default()
     }
 }
 
