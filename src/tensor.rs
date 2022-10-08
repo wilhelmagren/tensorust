@@ -60,17 +60,14 @@ impl Tensor {
     pub fn requires_grad(&self) -> bool {
         self.requires_grad
     }
-}
 
-use std::ops::Add;
-impl Add for Tensor {
-    type Output = Self;
-    fn add(self, other: Tensor) -> Tensor {
+    pub fn add(&self, other: &Tensor) -> Self {
         let dims: Size = self.dims.clone();
-        let data: Vec<f32> = self.data.iter().zip(other.data.iter())
+        let data: Vec<f32> = self.data.iter()
+            .zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Self { dims: dims, data: data , ctx: Function::empty(), requires_grad: false }
+        Self { dims: dims, data: data, ctx: Function::empty(), requires_grad: false }
     }
 }
 
