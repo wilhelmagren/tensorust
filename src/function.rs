@@ -21,13 +21,13 @@ use crate::Tensor;
 
 #[derive(Debug)]
 pub struct Function {
-    parents: Vec<Tensor>,
-    saved_tensors: Vec<Tensor>,
+    parents: Vec<&Tensor>,
+    saved_tensors: Vec<&Tensor>,
     requires_grad: bool
 }
 
-impl Function {
-    pub fn add(u: Tensor, v: Tensor) -> Self {
+impl Function<'_> {
+    pub fn add(u: &Tensor, v: &Tensor) -> Self {
         Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
     }
 

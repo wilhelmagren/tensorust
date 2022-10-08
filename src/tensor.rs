@@ -67,7 +67,7 @@ impl Tensor {
             .zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Self { dims: dims, data: data, ctx: Function::empty(), requires_grad: false }
+        Self { dims: dims, data: data, ctx: Function::add(self, other), requires_grad: false }
     }
 }
 
