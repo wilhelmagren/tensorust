@@ -19,6 +19,7 @@
 
 use crate::Tensor;
 
+#[derive(Debug)]
 pub struct Function {
     parents: Vec<Tensor>,
     saved_tensors: Vec<Tensor>,

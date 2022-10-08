@@ -13,16 +13,29 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-//  File created: 22-09-15
+//  File created: 22-10-08
 //  Last updated: 22-10-08
 //
 
-mod tensor;
-mod size;
-mod function;
+#[derive(Debug, Clone)]
+pub struct Size {
+    dims: Vec<usize>
+}
 
-#[allow(unused_imports)]
-pub use tensor::Tensor;
-pub use size::Size;
-pub use function::Function;
+impl Size {
+    pub fn from_vec(dims: Vec<usize>) -> Self {
+        Self { dims: dims }
+    }
 
+    pub fn dims(&self) -> &Vec<usize> {
+        &self.dims
+    }
+}
+
+/*
+impl Clone for Size {
+    fn clone(&self) -> Size {
+        *self
+    }
+}
+*/

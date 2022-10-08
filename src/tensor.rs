@@ -1,9 +1,9 @@
 //
-//  Copyright 2022 Wilhelm Ågren
+//  cloneright 2022 Wilhelm Ågren
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
+//  You may obtain a clone of the License at
 //
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
@@ -17,11 +17,13 @@
 //  Last updated: 22-10-08
 //
 
+use crate::Size;
 use crate::Function;
 
 #[allow(dead_code)]
+#[derive(Debug)]
 pub struct Tensor {
-    dims: Vec<usize>,
+    dims: Size,
     data: Vec<f32>,
     ctx: Function,
     requires_grad: bool,
@@ -29,38 +31,46 @@ pub struct Tensor {
 
 #[allow(dead_code)]
 impl Tensor {
-    pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Tensor {
+    pub fn new(dims: Size, data: Vec<f32>) -> Tensor {
         Tensor { dims: dims, data: data, ctx: Function::empty(), requires_grad: false }
     }
 
-    pub fn zeros(dims: Vec<usize>) -> Tensor {
-        let size: usize = dims.iter().product();
+    pub fn zeros(dims: Size) -> Tensor {
+        let size: usize = dims.dims().iter().product();
         Tensor { dims: dims, data: vec![0.0; size] , ctx: Function::empty(), requires_grad: false }
     }
 
-    pub fn ones(dims: Vec<usize>) -> Tensor {
-        let size: usize = dims.iter().product();
+    pub fn ones(dims: Size) -> Tensor {
+        let size: usize = dims.dims().iter().product();
         Tensor { dims: dims, data: vec![1.0; size] , ctx: Function::empty(), requires_grad: false }
     }
 
-    pub fn dims(&self) -> &Vec<usize> {
+    pub fn dims(&self) -> &Size {
         &self.dims
     }
 
     pub fn data(&self) -> &Vec<f32> {
         &self.data
     }
+
+    pub fn ctx(&self) -> &Function {
+        &self.ctx
+    }
+
+    pub fn requires_grad(&self) -> bool {
+        self.requires_grad
+    }
 }
 
-// Look into more idiomatic way of implementing traits for Tensor.
 use std::ops::Add;
 impl Add for Tensor {
     type Output = Self;
     fn add(self, other: Tensor) -> Tensor {
+        let dims: Size = self.dims.clone();
         let data: Vec<f32> = self.data.iter().zip(other.data.iter())
             .map(|(&u, &v)| u + v)
             .collect();
-        Tensor { dims: self.dims, data: data , ctx: Function::empty(), requires_grad: false }
+        Self { dims: dims, data: data , ctx: Function::empty(), requires_grad: false }
     }
 }
 
