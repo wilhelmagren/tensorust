@@ -1,5 +1,4 @@
 # Tensorust
----
 ![Build](https://github.com/willeagren/tensorust/actions/workflows/rust-build.yml/badge.svg)
 ![Tests](https://github.com/willeagren/tensorust/actions/workflows/rust-tests.yml/badge.svg)
 <br>
