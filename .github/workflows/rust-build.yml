@@ -10,8 +10,22 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  build-ubuntu:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout/@v2
+    - name: Build
+      run: cargo build --release --verbose
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout/@v2
+    - name: Build
+      run: cargo build --release --verbose
+  
+  build-windows:
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout/@v2
     - name: Build
