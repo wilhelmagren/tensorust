@@ -14,12 +14,11 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-03
+//  Last updated: 22-10-08
 //
 
 use crate::Tensor;
 
-#[derive(Default)]
 pub struct Function {
     parents: Vec<Tensor>,
     saved_tensors: Vec<Tensor>,
@@ -31,12 +30,8 @@ impl Function {
         Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
     }
 
-    pub fn default() -> Self {
-        Self { parents: vec![], saved_tensors: vec![], requires_grad: false  }
-    }
-
     pub fn empty() -> Self {
-        Self::default()
+        Self { parents: vec![], saved_tensors: vec![], requires_grad: false  }
     }
 }
 
