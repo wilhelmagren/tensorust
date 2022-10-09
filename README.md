@@ -23,19 +23,17 @@ Operations to implement are:
 ## Example
 Below is an example showcasing how to create two Tensors and get a resulting Tensor from the add operation. Due to how the DAG construction works the resulting Tensor is going to be part of a context, meaning, it was created through a `Function` and thus have two parent Tensors 
 ```rust
-use tensorust::{Size, Tensor};
+use tensorust::{Tensor};
 
 // Create two Tensors of the same size; one with only zeros and 
 // the other with only ones. Add them and get resulting Tensor.
-fn main() -> Result<()> {
-  let a: Tensor = Tensor::zeros(Size::from_vec(vec![128, 64]));
-  let b: Tensor = Tensor::ones(Size::from_vec(vec![128, 64]));
+fn main() {
+  let a: Tensor = Tensor::zeros(vec![128, 64]);
+  let b: Tensor = Tensor::ones(vec![128, 64]);
   
-  let c: Tensor = a + b;
+  let c: Tensor = a + &b;
   // An alternative way to add the Tensors is to explicitly call
-  // let c: Tensor = a.add(b);
-  
-  Ok(())
+  // let c: Tensor = a.add(&b);
 }
 ```
 
