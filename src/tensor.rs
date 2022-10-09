@@ -32,19 +32,19 @@ pub struct Tensor<'a> {
 impl<'a> Tensor<'a> {
     pub fn new(dims: Vec<usize>, data: Vec<f32>) -> Self {
         Self { dims: dims, data: data,
-        ctx: Function::none(), requires_grad: false }
+        ctx: Function::null(), requires_grad: false }
     }
 
     pub fn zeros(dims: Vec<usize>) -> Self {
         let size: usize = dims.iter().product();
         Tensor { dims: dims, data: vec![0.0; size],
-        ctx: Function::none(), requires_grad: false }
+        ctx: Function::null(), requires_grad: false }
     }
 
     pub fn ones(dims: Vec<usize>) -> Self {
         let size: usize = dims.iter().product();
         Tensor { dims: dims, data: vec![1.0; size],
-        ctx: Function::none(), requires_grad: false }
+        ctx: Function::null(), requires_grad: false }
     }
 
     pub fn dims(&'a self) -> &Vec<usize> {

@@ -19,21 +19,40 @@
 
 use crate::Tensor;
 
+#[derive(Debug)]
+pub enum FunctionType {
+    Add,
+    Sub,
+    Mul,
+    Dot,
+    Conv2d,
+    Pool2d,
+    Null
+}
+
+pub trait Operation {
+    fn forward(&self) -> Tensor;
+    fn backward(&self) -> Tensor;
+}
+
 #[allow(dead_code)]
 #[derive(Debug)]
 pub struct Function<'a> {
+    operation: FunctionType,
     parents: Vec<&'a Tensor<'a>>,
     saved_tensors: Vec<&'a Tensor<'a>>,
     requires_grad: bool
 }
 
 impl<'a> Function<'a> {
-    pub fn none() -> Self {
-        Self { parents: vec![], saved_tensors: vec![], requires_grad: false }
+    pub fn null() -> Self {
+        Self { operation: FunctionType::Null, parents: vec![],
+        saved_tensors: vec![], requires_grad: false }
     }
     
     pub fn add(u: &'a Tensor, v: &'a Tensor) -> Self {
-        Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
+        Self { operation: FunctionType::Add, parents: vec![u, v],
+        saved_tensors: vec![], requires_grad: false }
     }
 }
 
