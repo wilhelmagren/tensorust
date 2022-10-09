@@ -30,9 +30,14 @@ pub enum FunctionType {
     Null
 }
 
-pub trait Operation {
-    fn forward(&self) -> Tensor;
-    fn backward(&self) -> Tensor;
+pub trait UnaryOp<'a> {
+    fn forward(&'a self) -> Tensor;
+    fn backward(&'a self, grad: &'a Tensor) -> Tensor;
+}
+
+pub trait BinaryOp<'a> {
+    fn forward(&'a self, other: &'a Tensor) -> Tensor;
+    fn backward(&'a self, grad: &'a Tensor) -> Tensor;
 }
 
 #[allow(dead_code)]
