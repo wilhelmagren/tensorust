@@ -30,7 +30,7 @@ impl<'a> Tensor<'a> {
         requires_grad: false, ctx: Function::none() }
     }
 
-    fn add(&self, other: &'a Tensor) -> Self {
+    fn add(&'a self, other: &'a Tensor) -> Self {
         let nsamples: usize = self.dims.iter().product();
         Self { dims: vec![3, 4], data: vec![0.0; nsamples],
         requires_grad: false, ctx: Function::add(self, other) }
