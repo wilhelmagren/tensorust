@@ -47,6 +47,14 @@ impl<'a> Tensor<'a> {
         ctx: Function::none(), requires_grad: false }
     }
 
+    pub fn dims(&'a self) -> &Vec<usize> {
+        &self.dims
+    }
+
+    pub fn data(&'a self) -> &Vec<f32> {
+        &self.data
+    }
+
     pub fn requires_grad(&'a self) -> bool {
         self.requires_grad
     }
