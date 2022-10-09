@@ -14,24 +14,26 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-08
+//  Last updated: 22-10-09
 //
 
 use crate::Tensor;
 
-pub struct Function {
-    parents: Vec<Tensor>,
-    saved_tensors: Vec<Tensor>,
+#[allow(dead_code)]
+#[derive(Debug)]
+pub struct Function<'a> {
+    parents: Vec<&'a Tensor<'a>>,
+    saved_tensors: Vec<&'a Tensor<'a>>,
     requires_grad: bool
 }
 
-impl Function {
-    pub fn add(u: Tensor, v: Tensor) -> Self {
-        Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
+impl<'a> Function<'a> {
+    pub fn none() -> Self {
+        Self { parents: vec![], saved_tensors: vec![], requires_grad: false }
     }
-
-    pub fn empty() -> Self {
-        Self { parents: vec![], saved_tensors: vec![], requires_grad: false  }
+    
+    pub fn add(u: &'a Tensor, v: &'a Tensor) -> Self {
+        Self { parents: vec![u, v], saved_tensors: vec![], requires_grad: false }
     }
 }
 
