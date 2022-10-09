@@ -21,6 +21,7 @@ Operations to implement are:
 
 
 ## Example
+Below is an example showcasing how to create two Tensors and get a resulting Tensor from the add operation. Due to how the DAG construction works the resulting Tensor is going to be part of a context, meaning, it was created through a `Function` and thus have two parent Tensors 
 ```rust
 use tensorust::{Size, Tensor};
 
