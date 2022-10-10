@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-09
+//  Last updated: 22-10-10
 //
 
 use crate::Function;
@@ -24,7 +24,7 @@ use crate::Function;
 pub struct Tensor<'a> {
     dims: Vec<usize>,
     data: Vec<f32>,
-    ctx: Function<'a>,
+    ctx: &'a Function<'a>,
     requires_grad: bool,
 }
 
@@ -60,13 +60,11 @@ impl<'a> Tensor<'a> {
     }
 
     pub fn add(&'a self, other: &'a Tensor) -> Self {
-        let size: Vec<usize> = self.dims.clone();
-        let data: Vec<f32> = self.data.iter()
-            .zip(other.data.iter())
-            .map(|(&u, &v)| u + v)
-            .collect();
-        Self { dims: size, data: data, ctx: Function::add(self, other),
-        requires_grad: false }
+        let ctx: Function = Function::add(self, other);
+        match ctx.forward() {
+            Ok(tensor) => tensor,
+            Err(e) => panic!("Could not perform forward pass, {:?}", e),
+        }
     }
 }
 

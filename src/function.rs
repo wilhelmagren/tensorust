@@ -14,10 +14,25 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-09
+//  Last updated: 22-10-10
 //
 
+use std::fmt;
 use crate::Tensor;
+
+struct FunctionTypeError;
+
+impl fmt::Display for FunctionTypeError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "No valid FunctionType found.")
+    }
+}
+
+impl fmt::Debug for FunctionTypeError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{{ file: {}, line: {} }}", file!(), line!())
+    }
+}
 
 #[derive(Debug)]
 pub enum FunctionType {
@@ -30,16 +45,6 @@ pub enum FunctionType {
     Null
 }
 
-pub trait UnaryOp<'a> {
-    fn forward(&'a self) -> Tensor;
-    fn backward(&'a self, grad: &'a Tensor) -> Tensor;
-}
-
-pub trait BinaryOp<'a> {
-    fn forward(&'a self, other: &'a Tensor) -> Tensor;
-    fn backward(&'a self, grad: &'a Tensor) -> Tensor;
-}
-
 #[allow(dead_code)]
 #[derive(Debug)]
 pub struct Function<'a> {
@@ -49,9 +54,29 @@ pub struct Function<'a> {
     requires_grad: bool
 }
 
+fn requires_grad<'a>(tensors: &'a Vec<&'a Tensor<'a>>) -> bool {
+    for &t in tensors.iter() { if !t.requires_grad() { return false; } }
+    return true;
+}
+
+fn add<'a>(ctx: &'a Function) -> Tensor<'a> {
+    let u: &'a Tensor = ctx.parents[0];
+    let v: &'a Tensor = ctx.parents[1];
+    assert_eq!(*u.dims(), *v.dims());
+
+    let dims: Vec<usize> = u.dims().clone();
+    let data: Vec<f32> = u.data().iter()
+        .zip(v.data().iter())
+        .map(|(&a, &b)| a + b)
+        .collect();
+    Tensor { dims: dims, data: data, ctx: ctx,
+    requires_grad: requires_grad(&ctx.parents)
+    }
+}
+
 impl<'a> Function<'a> {
-    pub fn null() -> Self {
-        Self { operation: FunctionType::Null, parents: vec![],
+    pub fn null() -> &'a Self {
+        &Self { operation: FunctionType::Null, parents: vec![],
         saved_tensors: vec![], requires_grad: false }
     }
     
@@ -59,5 +84,13 @@ impl<'a> Function<'a> {
         Self { operation: FunctionType::Add, parents: vec![u, v],
         saved_tensors: vec![], requires_grad: false }
     }
+
+    pub fn forward(&self) -> Result<Tensor, FunctionTypeError> {
+        match self.operation {
+            FunctionType::Add => Ok(add(self)),
+            _ => Err(FunctionTypeError),
+        }
+    }
 }
+
 
