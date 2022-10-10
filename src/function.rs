@@ -80,8 +80,8 @@ impl<'a> Function<'a> {
         saved_tensors: vec![], requires_grad: false }
     }
     
-    pub fn add(u: &'a Tensor, v: &'a Tensor) -> Self {
-        Self { operation: FunctionType::Add, parents: vec![u, v],
+    pub fn add(u: &'a Tensor, v: &'a Tensor) -> &'a Self {
+        &Self { operation: FunctionType::Add, parents: vec![u, v],
         saved_tensors: vec![], requires_grad: false }
     }
 
