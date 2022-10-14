@@ -82,7 +82,7 @@ impl<'a> Function<'a> {
     
     pub fn add(u: &'a Tensor, v: &'a Tensor) -> Self {
         Self { operation: FunctionType::Add, parents: vec![u, v],
-        saved_tensors: vec![], requires_grad: requires_grad(vec![u, v]) }
+        saved_tensors: vec![], requires_grad: requires_grad(&vec![u, v]) }
     }
 
     pub fn forward(&self) -> Result<Tensor, FunctionTypeError> {
@@ -92,5 +92,3 @@ impl<'a> Function<'a> {
         }
     }
 }
-
-
