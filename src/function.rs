@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-10
+//  Last updated: 22-10-14
 //
 
 use std::fmt;
@@ -75,14 +75,14 @@ fn add<'a>(ctx: &'a Function) -> Tensor<'a> {
 }
 
 impl<'a> Function<'a> {
-    pub fn null() -> &'a Self {
-        &Self { operation: FunctionType::Null, parents: vec![],
+    pub fn null() -> Self {
+        Self { operation: FunctionType::Null, parents: vec![],
         saved_tensors: vec![], requires_grad: false }
     }
     
-    pub fn add(u: &'a Tensor, v: &'a Tensor) -> &'a Self {
-        &Self { operation: FunctionType::Add, parents: vec![u, v],
-        saved_tensors: vec![], requires_grad: false }
+    pub fn add(u: &'a Tensor, v: &'a Tensor) -> Self {
+        Self { operation: FunctionType::Add, parents: vec![u, v],
+        saved_tensors: vec![], requires_grad: requires_grad(vec![u, v]) }
     }
 
     pub fn forward(&self) -> Result<Tensor, FunctionTypeError> {

@@ -14,7 +14,7 @@
 //  limitations under the License.
 //
 //  File created: 22-10-03
-//  Last updated: 22-10-10
+//  Last updated: 22-10-14
 //
 
 use crate::Function;
@@ -60,7 +60,7 @@ impl<'a> Tensor<'a> {
     }
 
     pub fn add(&'a self, other: &'a Tensor) -> Self {
-        let ctx: &'a Function = Function::add(self, other);
+        let ctx: Function = Function::add(self, other);
         match ctx.forward() {
             Ok(tensor) => tensor,
             Err(e) => panic!("Could not perform forward pass, {:?}", e),
